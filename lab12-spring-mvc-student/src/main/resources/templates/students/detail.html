@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Sinh Viên</title>
+</head>
+<body>
+    <h2>Chi Tiết Sinh Viên</h2>
+
+    <p><strong>ID:</strong> <span th:text="${student.id}"></span></p>
+    <p><strong>Mã SV:</strong> <span th:text="${student.studentCode}"></span></p>
+    <p><strong>Họ tên:</strong> <span th:text="${student.fullName}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${student.email}"></span></p>
+    <p><strong>Lớp:</strong> <span th:text="${student.className}"></span></p>
+
+    <br>
+    <a th:href="@{/students/edit/{id}(id=${student.id})}">Sửa</a> |
+    <a th:href="@{/students}">Quay lại danh sách</a>
+</body>
+</html>

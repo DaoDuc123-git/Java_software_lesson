@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Sinh Viên</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .actions a { margin-right: 8px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h2>Quản Lý Sinh Viên</h2>
+    
+    <!-- Bài 9: Tìm kiếm -->
+    <form th:action="@{/students}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Nhập họ tên cần tìm..." />
+        <button type="submit">Tìm kiếm</button>
+        <a th:href="@{/students}"><button type="button">Xóa lọc</button></a>
+    </form>
+
+    <br>
+    <a th:href="@{/students/create}">+ Thêm sinh viên mới</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mã SV</th>
+                <th>Họ Tên</th>
+                <th>Email</th>
+                <th>Lớp</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="st : ${students}">
+                <td th:text="${st.id}">1</td>
+                <td th:text="${st.studentCode}">SV00001</td>
+                <td th:text="${st.fullName}">Nguyễn Văn A</td>
+                <td th:text="${st.email}">a@gmail.com</td>
+                <td th:text="${st.className}">IT01</td>
+                <td class="actions">
+                    <a th:href="@{/students/{id}(id=${st.id})}">Chi tiết</a>
+                    <a th:href="@{/students/edit/{id}(id=${st.id})}">Sửa</a>
+                    <a th:href="@{/students/delete/{id}(id=${st.id})}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(students)}">
+                <td colspan="6" style="text-align: center;">Không tìm thấy dữ liệu.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
