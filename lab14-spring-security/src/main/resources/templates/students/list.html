@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Sinh viên</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <!-- Header thông tin đăng nhập và Logout -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <h2>Quản Lý Sinh Viên</h2>
+        <div sec:authorize="isAuthenticated()" class="d-flex align-items-center">
+            <span class="me-3">Xin chào: <b sec:authentication="name" class="text-primary"></b> 
+                (<span sec:authentication="principal.authorities"></span>)
+            </span>
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Đăng xuất</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Menu phân quyền ADMIN vs USER (Bài 8) -->
+    <div class="mb-3">
+        <a href="/students" class="btn btn-secondary">Danh sách Sinh viên</a>
+        <a sec:authorize="hasRole('ADMIN')" href="/courses" class="btn btn-warning ms-2">Quản lý Môn học (Chỉ ADMIN)</a>
+        <a sec:authorize="hasRole('ADMIN')" href="/students/create" class="btn btn-success ms-2">Thêm Sinh viên</a>
+    </div>
+
+    <!-- Bảng dữ liệu mẫu -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã SV</th>
+                <th>Họ và Tên</th>
+                <th>Lớp</th>
+                <th sec:authorize="hasRole('ADMIN')">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SV001</td>
+                <td>Nguyễn Văn A</td>
+                <td>CNTT1</td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a href="/students/delete/1" class="btn btn-sm btn-danger" onclick="return confirm('Xóa sinh viên này?')">Xóa</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
